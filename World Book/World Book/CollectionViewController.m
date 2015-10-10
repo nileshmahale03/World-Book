@@ -47,15 +47,23 @@ static NSString * const reuseIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"showCountryFlag"]) {
+        NSArray *indexPaths = [self.collectionView indexPathsForSelectedItems];
+        UINavigationController *destViewController = segue.destinationViewController;
+        CountryViewController *countryViewController = (CountryViewController *) [destViewController.childViewControllers firstObject];
+        NSIndexPath *indexPath = [indexPaths objectAtIndex:0];
+        NSString *sectionTitle = [countrySectionTitles objectAtIndex:indexPath.section];
+        NSArray *sectionCountries = [countryNames objectForKey:sectionTitle];
+        NSString *country = [sectionCountries objectAtIndex:indexPath.row];
+        countryViewController.countryName = country;
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+    }
 }
-*/
+
 
 #pragma mark <UICollectionViewDataSource>
 

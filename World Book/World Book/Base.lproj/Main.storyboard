@@ -59,7 +59,7 @@
                                 <connections>
                                     <outlet property="countryLabel" destination="CdQ-F5-Pci" id="Yfk-bb-6SE"/>
                                     <outlet property="imageView" destination="VQ4-Am-hQT" id="fLf-vV-uf0"/>
-                                    <segue destination="0Tn-ox-5iX" kind="show" id="sHS-Nu-mOL"/>
+                                    <segue destination="xTV-GB-8LI" kind="presentation" identifier="showCountryFlag" id="x4L-NT-C5J"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -98,10 +98,10 @@
             </objects>
             <point key="canvasLocation" x="1161" y="431"/>
         </scene>
-        <!--View Controller-->
+        <!--Photo-->
         <scene sceneID="edm-e0-ioe">
             <objects>
-                <viewController id="0Tn-ox-5iX" sceneMemberID="viewController">
+                <viewController id="0Tn-ox-5iX" customClass="CountryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3g6-9q-jua"/>
                         <viewControllerLayoutGuide type="bottom" id="1ks-oZ-BCx"/>
@@ -109,13 +109,47 @@
                     <view key="view" contentMode="scaleToFill" id="OI1-22-ITB">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo-frame" translatesAutoresizingMaskIntoConstraints="NO" id="H23-Gf-Ud3">
+                                <rect key="frame" x="150" y="90" width="300" height="150"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="XdC-CF-DDH"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ypd-YG-Wlh">
+                                <rect key="frame" x="160" y="95" width="280" height="130"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="280" id="n4p-rk-2N9"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="H23-Gf-Ud3" firstAttribute="top" secondItem="3g6-9q-jua" secondAttribute="bottom" constant="26" id="akq-bi-OVN"/>
+                            <constraint firstItem="H23-Gf-Ud3" firstAttribute="centerX" secondItem="Ypd-YG-Wlh" secondAttribute="centerX" id="bzD-x3-cG0"/>
+                            <constraint firstItem="Ypd-YG-Wlh" firstAttribute="top" secondItem="3g6-9q-jua" secondAttribute="bottom" constant="31" id="cUL-vS-OEY"/>
+                            <constraint firstItem="1ks-oZ-BCx" firstAttribute="top" secondItem="Ypd-YG-Wlh" secondAttribute="bottom" constant="375" id="d2k-PN-KAR"/>
+                            <constraint firstItem="H23-Gf-Ud3" firstAttribute="centerX" secondItem="OI1-22-ITB" secondAttribute="centerX" id="edS-C3-zb0"/>
+                            <constraint firstItem="1ks-oZ-BCx" firstAttribute="top" secondItem="H23-Gf-Ud3" secondAttribute="bottom" constant="360" id="lJS-Go-eQf"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Photo" id="tOg-3L-CYU">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="aJm-dY-5OF">
+                            <connections>
+                                <action selector="closeAction:" destination="0Tn-ox-5iX" id="iNu-Mq-Qp8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="countryFlagImageView" destination="Ypd-YG-Wlh" id="xai-9g-xdn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IzA-vZ-7If" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1855" y="431"/>
+            <point key="canvasLocation" x="2667" y="431"/>
         </scene>
         <!--Item-->
         <scene sceneID="VWI-st-P5s">
@@ -137,5 +171,27 @@
             </objects>
             <point key="canvasLocation" x="451" y="431"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="br1-1R-91T">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xTV-GB-8LI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9ph-Fl-QUX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="0Tn-ox-5iX" kind="relationship" relationship="rootViewController" id="Zmj-62-B4h"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EMq-1q-M9p" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1855" y="431"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="photo-frame" width="297" height="199"/>
+    </resources>
 </document>
