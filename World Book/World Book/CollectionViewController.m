@@ -14,8 +14,10 @@
 
 @implementation CollectionViewController {
     
-    NSArray *flagImages;
-    NSArray *countryNames;
+    NSDictionary *flagImages;
+    NSDictionary *countryNames;
+    NSArray *countrySectionTitles;
+    
 }
 
 static NSString * const reuseIdentifier = @"Cell";
@@ -23,17 +25,16 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSArray *flagImagesA = @[@"au", @"az"];
-    NSArray *flagImagesB = @[@"ba", @"bb", @"bd", @"be", @"bf", @"bg", @"bh", @"bi", @"bj", @"bn", @"bo", @"br", @"bs", @"bt", @"bw", @"by", @"bz"];
-    NSArray *flagImagesC = @[@"ca", @"cd", @"cf"];
+    flagImages = @{@"A" : @[@"Australia", @"az"],
+                   @"B" : @[@"ba", @"bb", @"bd", @"be", @"bf", @"bg", @"bh", @"bi", @"bj", @"bn", @"bo", @"br", @"bs", @"bt", @"bw", @"by", @"bz"],
+                   @"C" : @[@"ca", @"cd", @"cf"]};
     
-    flagImages = @[flagImagesA, flagImagesB, flagImagesC];
     
-    NSArray *countryNamesA = @[@"Australia", @"az"];
-    NSArray *countryNamesB = @[@"ba", @"bb", @"bd", @"be", @"bf", @"bg", @"bh", @"bi", @"bj", @"bn", @"bo", @"br", @"bs", @"bt", @"bw", @"by", @"bz"];
-    NSArray *countryNamesC = @[@"ca", @"cd", @"cf"];
+    countryNames = @{@"A" : @[@"Australia", @"az"],
+                   @"B" : @[@"ba", @"bb", @"bd", @"be", @"bf", @"bg", @"bh", @"bi", @"bj", @"bn", @"bo", @"br", @"bs", @"bt", @"bw", @"by", @"bz"],
+                   @"C" : @[@"ca", @"cd", @"cf"]};
     
-    countryNames = @[countryNamesA, countryNamesB, countryNamesC];
+    countrySectionTitles = [[flagImages allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
     // let's add some section spacing
     UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
@@ -59,21 +60,27 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return [flagImages count];
+    return [countrySectionTitles count];
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [[flagImages objectAtIndex:section] count];
+    NSString *sectionTitle = [countrySectionTitles objectAtIndex:section];
+    NSArray *sectionCountries = [countryNames objectForKey:sectionTitle];
+    return [sectionCountries count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CustomCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
-    cell.imageView.image = [UIImage imageNamed:[flagImages[indexPath.section] objectAtIndex:indexPath.row]];
+    NSString *sectionTitle = [countrySectionTitles objectAtIndex:indexPath.section];
+    NSArray *sectionCountries = [countryNames objectForKey:sectionTitle];
+    NSString *country = [sectionCountries objectAtIndex:indexPath.row];
+    
+    cell.imageView.image = [UIImage imageNamed:country];
     cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo-frame"]];
-    cell.countryLabel.text = [countryNames[indexPath.section] objectAtIndex:indexPath.row];
+    cell.countryLabel.text = country;
     
     return cell;
 }
@@ -117,7 +124,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     if (kind == UICollectionElementKindSectionHeader) {
         CustomCollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
-        NSString *title = [[NSString alloc] initWithFormat:@"Country #%ld", indexPath.section+1];
+        NSString *title = [countrySectionTitles objectAtIndex:indexPath.section];
         headerView.sectionTitleLabel.text = title;
         
         resuableView = headerView;
